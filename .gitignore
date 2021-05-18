@@ -1,3 +1,13 @@
+# 
+.idea/
+.vscode/
+!datasets/stopwords/
+datasets/
+chinese_roformer_L-12_H-768_A-12/
+NEZHA-Base-WWM/
+tests/*.py
+!datasets/stopwords/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
