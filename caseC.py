@@ -21,7 +21,7 @@ import tensorflow as tf
 tf.random.set_seed(511) # 511
 
 # 基本信息
-maxlen = 512
+maxlen = 1024
 epochs = 1
 batch_size = 1
 learing_rate = 2e-5

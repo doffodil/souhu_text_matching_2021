@@ -14,7 +14,10 @@ from keras.layers import Input, Embedding, Reshape, GlobalAveragePooling1D, Dens
 from keras.models import Model
 from tqdm import tqdm
 import jieba
+import tensorflow as tf
 jieba.initialize()
+
+tf.random.set_seed(511)
 
 # 基本信息
 maxlen = 512
