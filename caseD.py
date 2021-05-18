@@ -1,7 +1,6 @@
 #! -*- coding: utf-8 -*-
 # 2021搜狐校园文本匹配算法大赛
 # 与训练模型: NEZHA
-# 数据清洗
 
 import json
 from process import stopwords_loader
@@ -16,9 +15,6 @@ from keras.models import Model
 from tqdm import tqdm
 import jieba
 jieba.initialize()
-import tensorflow as tf
-
-tf.random.set_seed(511) # 511
 
 # 基本信息
 maxlen = 512
@@ -78,8 +74,7 @@ stopwords = stopwords_loader('datasets/stopwords')
 tokenizer = Tokenizer(
     dict_path,
     do_lower_case=True,
-    pre_tokenize=lambda s: [str(word) for word in jieba.lcut(
-        s, HMM=False) if word not in stopwords]
+    pre_tokenize=lambda s: [str(word) for word in jieba.lcut(s, HMM=False)]
 )
 
 
