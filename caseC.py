@@ -15,10 +15,11 @@ from keras.layers import Input, Embedding, Reshape, GlobalAveragePooling1D, Dens
 from keras.models import Model
 from tqdm import tqdm
 import jieba
+
 jieba.initialize()
 import tensorflow as tf
 
-tf.random.set_seed(511) # 511
+tf.random.set_seed(511)  # 511
 
 # 基本信息
 maxlen = 512
@@ -51,7 +52,7 @@ for i, var in enumerate(variants):
         'datasets/rematch/%s/train.txt' % var
     ]
     for f in fs:
-        with open(f,encoding='utf-8') as f:
+        with open(f, encoding='utf-8') as f:
             for l in f:
                 l = json.loads(l)
                 train_data.append((i, l['source'], l['target'], int(l[key])))
@@ -61,17 +62,16 @@ for i, var in enumerate(variants):
         'datasets/rematch/%s/valid.txt' % var
     ]
     for f in vfs:
-        with open(f,encoding='utf-8') as f:
+        with open(f, encoding='utf-8') as f:
             for l in f:
                 l = json.loads(l)
                 valid_data.append((i, l['source'], l['target'], int(l[key])))
 
     f = 'datasets/sohu2021_open_data_clean/%s/test_with_id.txt' % var
-    with open(f,encoding='utf-8') as f:
+    with open(f, encoding='utf-8') as f:
         for l in f:
             l = json.loads(l)
             test_data.append((i, l['source'], l['target'], l['id']))
-
 
 # 建立分词器
 stopwords = stopwords_loader('datasets/stopwords')
@@ -105,8 +105,8 @@ class data_generator(DataGenerator):
                 batch_conds = sequence_padding(batch_conds)
                 batch_labels = sequence_padding(batch_labels)
                 yield [
-                    batch_token_ids, batch_segment_ids, batch_conds
-                ], batch_labels
+                          batch_token_ids, batch_segment_ids, batch_conds
+                      ], batch_labels
                 batch_token_ids, batch_segment_ids = [], []
                 batch_conds, batch_labels = [], []
 
@@ -186,13 +186,17 @@ class Evaluator(keras.callbacks.Callback):
         if metrics['f1'] > self.best_val_f1:
             self.best_val_f1 = metrics['f1']
             model.save_weights('best_model.weights')
+        else:
+            print('*****************************************************************')
+            print(metrics['f1'])
+            model.save_weights('best_model.weights-%d', epoch)
+            print('*****************************************************************')
         optimizer.reset_old_weights()
         metrics['best_f1'] = self.best_val_f1
         print(metrics)
 
 
 if __name__ == '__main__':
-
     evaluator = Evaluator()
 
     model.fit(
